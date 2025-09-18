@@ -51,7 +51,7 @@ public class FinalFragment
         String lorem = getString(R.string.lorem_ipsum);
         String text;
 
-        while (lorem.indexOf('.') != -1) {//
+        while (lorem.indexOf('.') != -1) {
             text = lorem.substring(0, lorem.indexOf('.'));
             lorem = lorem.substring(lorem.indexOf('.') + 1);
             messages.add(text);

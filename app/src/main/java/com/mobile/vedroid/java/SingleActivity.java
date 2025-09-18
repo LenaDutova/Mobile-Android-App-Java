@@ -2,6 +2,7 @@ package com.mobile.vedroid.java;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mobile.vedroid.java.fragments.FinalFragment;
 import com.mobile.vedroid.java.fragments.ReturningFragment;
 import com.mobile.vedroid.java.fragments.StartFragment;
@@ -25,10 +27,6 @@ public class SingleActivity
     public static final int JUMP_TO_RETURNING = 1;
     public static final int JUMP_FROM_RETURNING = 2;
     public static final int JUMP_TO_FINAL = 3;
-
-    private void debugging(String message) {
-        if (DEBUG) Log.d(TAG + "_" + this.getLocalClassName(), message);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +49,18 @@ public class SingleActivity
 //                    .add(R.id.main, StartFragment.class, savedInstanceState)
 //                    .commit();
 //        }
+    }
+
+    private void debugging(String message) {
+        if (DEBUG) Log.d(TAG + "_" + this.getLocalClassName(), message);
+    }
+
+    public void showSnackBar (String message){
+        Snackbar.make(findViewById(R.id.main), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void showToast (String message){
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     public void navigate (int jump, Bundle args) {
