@@ -4,31 +4,64 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.mobile.vedroid.java.DebuggingActivity;
 import com.mobile.vedroid.java.R;
+import com.mobile.vedroid.java.adapter.MessagesAdapter;
 
-public class FinalFragment extends Fragment {
+import java.util.ArrayList;
+
+public class FinalFragment
+        extends DebuggingFragment {
+
+    private TextView placeholder;
+    private MessagesAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((DebuggingActivity) getActivity()).debugging("HI");
+        debugging("HI");
         return inflater.inflate(R.layout.fragment_final, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // fixme add RecyclerView
+
+        RecyclerView recyclerView = view.findViewById(R.id.rv_messages);
+        this.adapter = new MessagesAdapter(this.getContext(), createMockData());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        if (adapter.getItemCount() > 0){
+            this.placeholder = view.findViewById(R.id.rv_placeholder);
+            placeholder.setVisibility(View.GONE);
+        } else {
+            placeholder.setVisibility(View.VISIBLE);
+        }
     }
+
+    private ArrayList<String> createMockData() {
+        ArrayList<String> messages = new ArrayList<>();
+        String lorem = getString(R.string.lorem_ipsum);
+        String text;
+
+        while (lorem.indexOf('.') != -1) {//
+            text = lorem.substring(0, lorem.indexOf('.'));
+            lorem = lorem.substring(lorem.indexOf('.') + 1);
+            messages.add(text);
+        }
+
+        messages.addAll(messages);
+        messages.addAll(messages);
+
+        debugging("create " + (messages).size() + " items");
+        return messages;
+    }
+
 }

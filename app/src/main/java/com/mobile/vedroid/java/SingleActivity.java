@@ -1,8 +1,10 @@
 package com.mobile.vedroid.java;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -12,7 +14,21 @@ import com.mobile.vedroid.java.fragments.ReturningFragment;
 import com.mobile.vedroid.java.fragments.StartFragment;
 
 public class SingleActivity
-        extends DebuggingActivity {
+        extends AppCompatActivity {
+
+    private static final boolean DEBUG = true;
+    private static final String TAG = "TAG";
+
+    public static final String LOGIN = "LOGIN";
+    public static final String GENDER = "GENDER";
+
+    public static final int JUMP_TO_RETURNING = 1;
+    public static final int JUMP_FROM_RETURNING = 2;
+    public static final int JUMP_TO_FINAL = 3;
+
+    private void debugging(String message) {
+        if (DEBUG) Log.d(TAG + "_" + this.getLocalClassName(), message);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,32 +55,42 @@ public class SingleActivity
 
     public void navigate (int jump, Bundle args) {
         switch (jump) {
-            case DebuggingActivity.JUMP_TO_RETURNING: {
+            case JUMP_TO_RETURNING: {
+                debugging("Open fragment to registration");
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.main, ReturningFragment.class, args)
                         .setReorderingAllowed(true)
-                        .addToBackStack(null)
+                        .replace(R.id.main, ReturningFragment.class, null)
+                        .addToBackStack("start")    // Can return to StartFragment
                         .commit();
                 break;
             }
-            case DebuggingActivity.JUMP_FROM_RETURNING: {
-                // fixme read bundle in StartFragment
+            case JUMP_FROM_RETURNING: {
+                debugging("Return to start fragment with registration data");
+                if (args != null) getSupportFragmentManager().popBackStack();   // Not return to StartFragment
+
+//                StartFragment fragment = new StartFragment();
+//                fragment.setArguments(args);
+//                getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .setReorderingAllowed(true)
+//                        .replace(R.id.main, fragment) // fragment with nested arguments
+//                        .commit();
+
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.main, StartFragment.class, args)
+                        .replace(R.id.main, StartFragment.class, args)  // fragment and arguments
+                        .setReorderingAllowed(true)
                         .commit();
 
-                if (args != null) {
-                    getSupportFragmentManager()
-                            .popBackStack();
-                }
                 break;
             }
-            case DebuggingActivity.JUMP_TO_FINAL: {
+            case JUMP_TO_FINAL: {
+                debugging("Open fragment with recycle view list");
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.main, FinalFragment.class, args)
+                        .replace(R.id.main, FinalFragment.class, null)
+                        .setReorderingAllowed(true)
                         .commit();
                 break;
             }

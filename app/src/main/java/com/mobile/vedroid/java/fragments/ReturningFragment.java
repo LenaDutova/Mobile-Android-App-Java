@@ -1,28 +1,22 @@
 package com.mobile.vedroid.java.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.mobile.vedroid.java.DebuggingActivity;
 import com.mobile.vedroid.java.R;
 import com.mobile.vedroid.java.SingleActivity;
 
-public class ReturningFragment extends Fragment {
+public class ReturningFragment
+        extends DebuggingFragment {
 
     private TextInputEditText login;
     private MaterialButtonToggleGroup toggle;
@@ -30,7 +24,7 @@ public class ReturningFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((DebuggingActivity) getActivity()).debugging("HI");
+        debugging("HI");
         return inflater.inflate(R.layout.fragment_returning, container, false);
     }
 
@@ -45,7 +39,7 @@ public class ReturningFragment extends Fragment {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((DebuggingActivity) getActivity()).debugging("Click to final");
+                debugging("Click from returning");
 
                 if (login.getText() == null || login.getText().toString().isBlank()) {
                     Snackbar.make(view, "Enter name", Snackbar.LENGTH_LONG).show();
@@ -53,10 +47,10 @@ public class ReturningFragment extends Fragment {
                     if (toggle.getCheckedButtonId() == R.id.btn_not_defined) {
                         Snackbar.make(view, "Choose gender", Snackbar.LENGTH_LONG).show();
                     } else {
-                        Bundle intent = new Bundle();
-                        intent.putString(DebuggingActivity.LOGIN, login.getText().toString());
-                        intent.putBoolean(DebuggingActivity.GENDER, (toggle.getCheckedButtonId() == R.id.btn_man));
-                        ((SingleActivity) getActivity()).navigate(DebuggingActivity.JUMP_FROM_RETURNING, intent);
+                        Bundle args = new Bundle();
+                        args.putString(SingleActivity.LOGIN, login.getText().toString());
+                        args.putBoolean(SingleActivity.GENDER, (toggle.getCheckedButtonId() == R.id.btn_man));
+                        ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_FROM_RETURNING, args);
                     }
                 }
             }
