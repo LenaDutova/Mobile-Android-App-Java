@@ -25,6 +25,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -32,14 +33,18 @@ android {
 }
 
 dependencies {
-
-
-    implementation(libs.fragment)
-
-    implementation(libs.appcompat)
+    // material design
     implementation(libs.material)
+
+    // android base elements
+    implementation(libs.appcompat)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // to use fragments
+    implementation(libs.androidx.fragment)
+
+    // tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

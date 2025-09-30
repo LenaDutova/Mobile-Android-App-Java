@@ -35,9 +35,9 @@ public class StartFragment
         btnReturning.setOnClickListener(this);
 
         if (getArguments() != null && getArguments().containsKey(SingleActivity.LOGIN)){
-            String txt  = "Welcome, ";
-            txt += (getArguments().getBoolean(SingleActivity.GENDER, false)) ? "Mr. " : "Mrs. ";
-            txt += getArguments().getString(SingleActivity.LOGIN) + "!";
+            String txt  = getString(R.string.text_greeting) + " ";
+            txt += (getArguments().getBoolean(SingleActivity.GENDER, false)) ? getString(R.string.text_mr) : getString(R.string.text_mrs);
+            txt += " " + getArguments().getString(SingleActivity.LOGIN) + "!";
 
             TextView greeting = view.findViewById(R.id.tv_greeting);
             greeting.setText(txt);

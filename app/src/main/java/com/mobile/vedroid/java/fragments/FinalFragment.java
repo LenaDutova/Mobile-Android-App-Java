@@ -33,13 +33,14 @@ public class FinalFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.rv_messages);
         this.adapter = new MessagesAdapter(this.getContext(), createMockData());
+
+        RecyclerView recyclerView = view.findViewById(R.id.rv_messages);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+        this.placeholder = view.findViewById(R.id.rv_placeholder);
         if (adapter.getItemCount() > 0){
-            this.placeholder = view.findViewById(R.id.rv_placeholder);
             placeholder.setVisibility(View.GONE);
         } else {
             placeholder.setVisibility(View.VISIBLE);

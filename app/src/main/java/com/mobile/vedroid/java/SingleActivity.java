@@ -34,7 +34,7 @@ public class SingleActivity
         setContentView(R.layout.activity);
 
         EdgeToEdge.enable(this); // reed https://developer.android.com/develop/ui/views/layout/edge-to-edge
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav_host_fragment), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -56,7 +56,7 @@ public class SingleActivity
     }
 
     public void showSnackBar (String message){
-        Snackbar.make(findViewById(R.id.main), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(R.id.nav_host_fragment), message, Snackbar.LENGTH_LONG).show();
     }
 
     public void showToast (String message){
@@ -70,7 +70,7 @@ public class SingleActivity
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setReorderingAllowed(true)
-                        .replace(R.id.main, ReturningFragment.class, null)
+                        .replace(R.id.nav_host_fragment, ReturningFragment.class, null)
                         .addToBackStack("start")    // Can return to StartFragment
                         .commit();
                 break;
@@ -89,7 +89,7 @@ public class SingleActivity
 
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.main, StartFragment.class, args)  // fragment and arguments
+                        .replace(R.id.nav_host_fragment, StartFragment.class, args)  // fragment and arguments
                         .setReorderingAllowed(true)
                         .commit();
 
@@ -99,7 +99,7 @@ public class SingleActivity
                 debugging("Open fragment with recycle view list");
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.main, FinalFragment.class, null)
+                        .replace(R.id.nav_host_fragment, FinalFragment.class, null)
                         .setReorderingAllowed(true)
                         .commit();
                 break;
