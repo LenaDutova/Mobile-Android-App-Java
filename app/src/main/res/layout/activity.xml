@@ -9,5 +9,5 @@
 
     android:name="com.mobile.vedroid.java.fragments.StartFragment"
 
-    android:id="@+id/main"
+    android:id="@+id/nav_host_fragment"
     tools:context=".SingleActivity"/>

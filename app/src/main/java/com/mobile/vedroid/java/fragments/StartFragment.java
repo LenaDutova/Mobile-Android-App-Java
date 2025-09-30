@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.mobile.vedroid.java.R;
 import com.mobile.vedroid.java.SingleActivity;
@@ -16,6 +17,8 @@ import com.mobile.vedroid.java.SingleActivity;
 public class StartFragment
         extends DebuggingFragment
         implements View.OnClickListener {
+
+    private TextView greeting;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,30 +33,50 @@ public class StartFragment
 
         Button btnFinal  = view.findViewById(R.id.btn_to_final);
         Button btnReturning = view.findViewById(R.id.btn_to_returning);
+        this.greeting = view.findViewById(R.id.tv_greeting);
 
         btnFinal.setOnClickListener(this);
         btnReturning.setOnClickListener(this);
-
-        if (getArguments() != null && getArguments().containsKey(SingleActivity.LOGIN)){
-            String txt  = "Welcome, ";
-            txt += (getArguments().getBoolean(SingleActivity.GENDER, false)) ? "Mr. " : "Mrs. ";
-            txt += getArguments().getString(SingleActivity.LOGIN) + "!";
-
-            TextView greeting = view.findViewById(R.id.tv_greeting);
-            greeting.setText(txt);
-        }
     }
 
     @Override
     public void onClick(View button) {
         if (button.getId() == R.id.btn_to_final){
             debugging("Click to final");
-            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_FINAL, null);
+
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, FinalFragment.class, null)
+                    .setReorderingAllowed(true)
+                    .commit();
+//            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_FINAL, null);
         }
 
         if (button.getId() == R.id.btn_to_returning){
             debugging("Click to returning");
-            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_RETURNING, null);
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack("start")
+                    .add(R.id.nav_host_fragment, ReturningFragment.class, null)
+                    .setReorderingAllowed(true)
+                    .commit();
+
+            getParentFragmentManager().setFragmentResultListener(
+                    SingleActivity.REGISTER,
+                    this,
+                    new FragmentResultListener() {
+                @Override
+                public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                    debugging("Listen results: " + requestKey);
+
+                    String txt  = getString(R.string.text_greeting) + " ";
+                    txt += (result.getBoolean(SingleActivity.GENDER, false)) ? getString(R.string.text_mr) : getString(R.string.text_mrs);
+                    txt += " " + result.getString(SingleActivity.LOGIN) + "!";
+
+                    greeting.setText(txt);
+                }
+            });
+//            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_RETURNING, null);
         }
     }
 }

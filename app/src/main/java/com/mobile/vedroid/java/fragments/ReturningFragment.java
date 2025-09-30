@@ -50,7 +50,9 @@ public class ReturningFragment
                         Bundle args = new Bundle();
                         args.putString(SingleActivity.LOGIN, login.getText().toString());
                         args.putBoolean(SingleActivity.GENDER, (toggle.getCheckedButtonId() == R.id.btn_man));
-                        ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_FROM_RETURNING, args);
+
+                        getParentFragmentManager().setFragmentResult(SingleActivity.REGISTER, args);
+                        getParentFragmentManager().popBackStack();
                     }
                 }
             }
