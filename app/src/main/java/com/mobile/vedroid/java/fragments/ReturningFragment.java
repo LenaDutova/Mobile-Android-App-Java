@@ -6,36 +6,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+
 import com.mobile.vedroid.java.R;
-import com.mobile.vedroid.java.SingleActivity;
+import com.mobile.vedroid.java.databinding.FragmentReturningBinding;
+import com.mobile.vedroid.java.model.Account;
 
 public class ReturningFragment
         extends DebuggingFragment {
 
-    private TextInputEditText login;
-    private MaterialButtonToggleGroup toggle;
+    private FragmentReturningBinding fragmentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         debugging("HI");
-        return inflater.inflate(R.layout.fragment_returning, container, false);
+        this.fragmentBinding = FragmentReturningBinding.inflate(inflater, container, false);
+        binding = this.fragmentBinding;
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        login = view.findViewById(R.id.login);
-        toggle = view.findViewById(R.id.toggle_button);
+        TextInputEditText login = fragmentBinding.registrationLogin;
+        MaterialButtonToggleGroup toggle = fragmentBinding.registrationGenderToggle;
+        Button btnStart = fragmentBinding.btnToStart;
 
-        Button btnStart = view.findViewById(R.id.btn_to_start);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,15 +52,24 @@ public class ReturningFragment
                     if (toggle.getCheckedButtonId() == R.id.btn_not_defined) {
                         Snackbar.make(view, "Choose gender", Snackbar.LENGTH_LONG).show();
                     } else {
-                        Bundle args = new Bundle();
-                        args.putString(SingleActivity.LOGIN, login.getText().toString());
-                        args.putBoolean(SingleActivity.GENDER, (toggle.getCheckedButtonId() == R.id.btn_man));
+                        var name = login.getText().toString();
+                        var sex = toggle.getCheckedButtonId() == R.id.btn_man;
 
-                        getParentFragmentManager().setFragmentResult(SingleActivity.REGISTER, args);
-                        getParentFragmentManager().popBackStack();
+                        var action = ReturningFragmentDirections.actionScreenRegisterReturnStart();
+                        action.setACCOUNT(new Account(name, sex));
+                        Navigation.findNavController(view).navigate(action);
                     }
                 }
             }
         });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                debugging("Back stack click");
+                Navigation.findNavController(view).popBackStack();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 }

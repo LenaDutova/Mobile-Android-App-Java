@@ -1,15 +1,12 @@
 package com.mobile.vedroid.java.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mobile.vedroid.java.R;
+import com.mobile.vedroid.java.databinding.ItemMessageBinding;
 
 import java.util.ArrayList;
 
@@ -17,36 +14,37 @@ public class MessagesAdapter
         extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
 
     private final ArrayList<String> messages;
-    private final Context context;
 
-    public MessagesAdapter(Context context, ArrayList<String> messages) {
-        this.context = context;
+    public MessagesAdapter(ArrayList<String> messages) {
         this.messages = messages;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView text;
+        private final ItemMessageBinding binding;
 
-        ViewHolder(View view){
-            super(view);
+        public ViewHolder(ItemMessageBinding binding){
+            super(binding.getRoot());
+            this.binding = binding;
+        }
 
-            // Find views on layout
-            text = view.findViewById(R.id.item_message_text);
+        void bindItem (String item){
+            binding.itemMessageText.setText (item);
         }
     }
 
     @NonNull
     @Override
     public MessagesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Specify layout for items
-        View view = LayoutInflater.from(context).inflate(R.layout.item_message, parent, false);
-        return new ViewHolder(view);
+        ItemMessageBinding binding = ItemMessageBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessagesAdapter.ViewHolder holder, int position) {
-        // Show data from position item on layout views
-        holder.text.setText(messages.get(position));
+        holder.bindItem(messages.get(position));
     }
 
     @Override

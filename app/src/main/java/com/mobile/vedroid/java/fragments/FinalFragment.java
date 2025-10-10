@@ -13,33 +13,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.vedroid.java.R;
 import com.mobile.vedroid.java.adapter.MessagesAdapter;
+import com.mobile.vedroid.java.databinding.FragmentFinalBinding;
 
 import java.util.ArrayList;
 
 public class FinalFragment
         extends DebuggingFragment {
 
-    private TextView placeholder;
-    private MessagesAdapter adapter;
+    private FragmentFinalBinding fragmentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         debugging("HI");
-        return inflater.inflate(R.layout.fragment_final, container, false);
+        this.fragmentBinding = FragmentFinalBinding.inflate(inflater, container, false);
+        binding = this.fragmentBinding;
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.adapter = new MessagesAdapter(this.getContext(), createMockData());
+        MessagesAdapter adapter = new MessagesAdapter(createMockData());
 
-        RecyclerView recyclerView = view.findViewById(R.id.rv_messages);
+        RecyclerView recyclerView = fragmentBinding.messagesRecyclerView;
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        this.placeholder = view.findViewById(R.id.rv_placeholder);
+        TextView placeholder = fragmentBinding.messagesPlaceholder;
         if (adapter.getItemCount() > 0){
             placeholder.setVisibility(View.GONE);
         } else {

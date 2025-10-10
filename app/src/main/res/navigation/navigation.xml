@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/navigation"
+    app:startDestination="@+id/screen_start">
+
+    <fragment
+        android:id="@+id/screen_start"
+        android:name="com.mobile.vedroid.java.fragments.StartFragment"
+        tools:layout="@layout/fragment_start">
+
+        <action
+            android:id="@+id/action_screen_start_to_register"
+            app:destination="@id/screen_register"/>
+        <action
+            android:id="@+id/action_screen_start_to_final"
+            app:destination="@id/screen_final"/>
+
+        <argument
+            android:name="ACCOUNT"
+            android:defaultValue="@null"
+            app:argType="com.mobile.vedroid.java.model.Account"
+            app:nullable="true"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/screen_register"
+        android:name="com.mobile.vedroid.java.fragments.ReturningFragment"
+        tools:layout="@layout/fragment_returning">
+
+        <action
+            android:id="@+id/action_screen_register_return_start"
+            app:destination="@id/screen_start" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/screen_final"
+        android:name="com.mobile.vedroid.java.fragments.FinalFragment"
+        tools:layout="@layout/fragment_final">
+    </fragment>
+
+</navigation>

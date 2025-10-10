@@ -9,74 +9,59 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 
 import com.mobile.vedroid.java.R;
-import com.mobile.vedroid.java.SingleActivity;
+import com.mobile.vedroid.java.databinding.FragmentStartBinding;
+import com.mobile.vedroid.java.model.Account;
 
 public class StartFragment
         extends DebuggingFragment
         implements View.OnClickListener {
 
-    private TextView greeting;
+    private FragmentStartBinding fragmentBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         debugging("HI");
-        return inflater.inflate(R.layout.fragment_start, container, false);
+        this.fragmentBinding = FragmentStartBinding.inflate(inflater, container, false);
+        binding = this.fragmentBinding;
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnFinal  = view.findViewById(R.id.btn_to_final);
-        Button btnReturning = view.findViewById(R.id.btn_to_returning);
-        this.greeting = view.findViewById(R.id.tv_greeting);
+        Button btnFinal = fragmentBinding.btnToFinal;
+        Button btnReturning = fragmentBinding.btnToReturning;
+        TextView greeting = fragmentBinding.tvGreeting;
 
         btnFinal.setOnClickListener(this);
         btnReturning.setOnClickListener(this);
+
+        Account args = StartFragmentArgs.fromBundle(getArguments()).getACCOUNT();
+        if (args != null) {
+            String txt  = getString(R.string.text_greeting) + " ";
+            txt += args.isGender() ? getString(R.string.text_mr) : getString(R.string.text_mrs);
+            txt += " " + args.getLogin() + "!";
+            debugging("text " + txt);
+
+            greeting.setText(txt);
+        }
     }
 
     @Override
     public void onClick(View button) {
         if (button.getId() == R.id.btn_to_final){
             debugging("Click to final");
-
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment, FinalFragment.class, null)
-                    .setReorderingAllowed(true)
-                    .commit();
-//            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_FINAL, null);
+            Navigation.findNavController(button).navigate(R.id.action_screen_start_to_final);
+            return;
         }
-
         if (button.getId() == R.id.btn_to_returning){
             debugging("Click to returning");
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .addToBackStack("start")
-                    .add(R.id.nav_host_fragment, ReturningFragment.class, null)
-                    .setReorderingAllowed(true)
-                    .commit();
-
-            getParentFragmentManager().setFragmentResultListener(
-                    SingleActivity.REGISTER,
-                    this,
-                    new FragmentResultListener() {
-                @Override
-                public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                    debugging("Listen results: " + requestKey);
-
-                    String txt  = getString(R.string.text_greeting) + " ";
-                    txt += (result.getBoolean(SingleActivity.GENDER, false)) ? getString(R.string.text_mr) : getString(R.string.text_mrs);
-                    txt += " " + result.getString(SingleActivity.LOGIN) + "!";
-
-                    greeting.setText(txt);
-                }
-            });
-//            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_RETURNING, null);
+            Navigation.findNavController(button).navigate(R.id.action_screen_start_to_register);
         }
     }
 }
