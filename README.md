@@ -1,15 +1,15 @@
-# A three-window application has been developed for user login, registration, and data viewing.
+# Реализация на основе языка Java трех-оконного приложения для входа, регистрации и отображения данных пользователю
 
-## Design
-The layout of the screens was done using XML. See res/layout
-Added constant values in color, dimens and strings. See res/values (-night, -ru) 
-String resources contain two localizations (RU, EN as default). Chose language on device or emulator to see the differences/
-Added theme and styles (default, night)
-Added custom LOGO-image
+## Вестка
+Верстка экранов реализована с использованием XML. См. res/layout
+Добавлены константы для цветов, размеров и строк (colors, dimens and strings). См. res/values (-night, -ru) 
+Строковые ресурсы содержат две локализации (RU, EN по умолчанию). Измените язык операционной системы на устройстве или эмуляторе для просмотра отличий. 
+Описаны тема и некоторые стили элементов (styles, themes) в двух исполнениях - ночное оформление в дополнение к обычному (default, night)
+Добавлено изображение для логотипа приложения, отражающее основной язык написания.
 
 
-## Activity
-Each activity (StartActivity, ReturningActivity, FinalActivity) is added to the file AndroidManifest.xml. One of them has been declared the starting one.
+## Деятельности (Activity)
+Каждая деятельность (StartActivity, ReturningActivity, FinalActivity) прописана в файле AndroidManifest.xml. Одна из них определена как стартовая (загрузочная):
 ```
 <intent-filter>
     <action android:name="android.intent.action.MAIN" />
@@ -18,12 +18,12 @@ Each activity (StartActivity, ReturningActivity, FinalActivity) is added to the 
 ```
 
 
-## Life cycle
-Created parent Activity (DebuggingActivity) which is declared parental (extends) to others.
+## Жизненный цикл и логировании
+Создана родительская деятельность (DebuggingActivity) от которой унаследованы (extends) остальные деятельности. Что позволяет переиспользовать некоторые методы, например вывод сообщений при разработке в Logcat
 
 
-## Interaction
-In Activity find views from XML with findViewById(). Change them data or add listeners: 
+## Взаимодействие
+В дяетельностях находим визуальные компоненты (views), определенные в XML, с помощью метода findViewById(). После чего можно изменить их отображение или привязать действия через соответствующие слушатели событий (listeners): 
 ```
 Button btn = (Button) findViewById(R.id.btn_id);
 btn.setOnClickListener(new View.OnClickListener() {
@@ -34,22 +34,21 @@ btn.setOnClickListener(new View.OnClickListener() {
 });
 ```
 
-Some listeners encourage start of another Activity by using explicit intent-object:
+Некоторые действия порождают запуск иных деятельностей, через механизм "явных" намерений (intent), в которых указывается требуемый компонент. В представленном ниже примере, метод finish() закрывает деятельность, с которой пользователь уходит: 
 ```
 Intent intent = new Intent(this, AnotherActivity.class);
 startActivity(intent);
 finish();
 ```
 
-Some listeners encourage start of Activity for returning some Result-data via launcher subscription:
+Некоторые действия порождают запуск иных деятельностей для предоставления дополнительных данных. В этом случае "порождающая" деятельность уходит из поля видимости, но не завершается, а ждет ответа от "порождаемой" деятельности:
 ```
 Intent intent = new Intent(this, AnotherActivity.class);
-resultLauncher.launch(intent);  // New way
-// startActivityForResult(intent, REQUEST);  // @Deprecated way
+resultLauncher.launch(intent);                  // New way
+// startActivityForResult(intent, REQUEST);     // @Deprecated way
 ```
 
-After which it`s necessary to read the data from Bundle (in returned Intent) storing data as key-value pairs.
-Child activity in turn must send the corresponding data:
+Затем необходимо прочитать данные из объекта Bundle, прикрепленного в возвращаемом намерении (Intent), сохраненных в виде пар "ключ-значение". "Порождаемая" деятельность в свою очередь должна отправить требуемые данные и завершиться:
 ```
 Intent intent = new Intent();
 intent.putExtra("KEY", "value");
