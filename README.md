@@ -4,7 +4,7 @@
 В build.gradle.kts уровня Модуля для использования фрагментов требуется добавить зависимость:
 ```
 dependencies {
-    implementation "androidx.fragment:fragment:1.8.9"
+    implementation ("androidx.fragment:fragment:1.8.9")
 }
 ```
 
