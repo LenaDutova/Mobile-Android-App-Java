@@ -25,7 +25,7 @@ public class ReturningFragment
     private FragmentReturningBinding fragmentBinding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         debugging("HI");
         this.fragmentBinding = FragmentReturningBinding.inflate(inflater, container, false);

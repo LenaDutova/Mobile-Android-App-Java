@@ -2,7 +2,8 @@ package com.mobile.vedroid.java.model;
 
 import java.io.Serializable;
 
-public class Account implements Serializable {
+public class Account
+        implements Serializable {
 
     private String login;
     private boolean gender;
@@ -18,5 +19,13 @@ public class Account implements Serializable {
 
     public boolean isGender() {
         return gender;
+    }
+
+    public void setLogin (String login) {
+        if (login != null && login.isBlank()) this.login = login;
+    }
+
+    public void setGender (boolean gender) {
+        this.gender = gender;
     }
 }
