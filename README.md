@@ -4,7 +4,7 @@
 В build.gradle.kts уровня Модуля для использования фрагментов требуется добавить зависимость:
 ```
 dependencies {
-    implementation "androidx.fragment:fragment-ktx:1.8.9"
+    implementation "androidx.fragment:fragment:1.8.9"
 }
 ```
 
@@ -36,48 +36,38 @@ if (savedInstanceState == null) {
 ## Замена фрагментов
 Когда заменяем (replace()) фрагмент, верхний в стеке FragmentManager-а фрагмент удаляется, а на его место помещается новый. При обратном вызове, если стек пустой, приложение закроется:
 ```
-getParentFragmentManager()
+getSupportFragmentManager()
     .beginTransaction()
     .replace(R.id.fragment_container_view, AnotherFragment.class, null)
-    .setReorderingAllowed(true)
     .commit();
 ```
 
-Когда добавляем (add()) фрагмент, он ложится в стеке поверх предыдущего фрагмента. В случае свайпа, нажатие системной кнопки "назад" добавленный фрагмент будет удален из стека, а тот который находился под ним, снова выйдет на передний план. 
-```
-getParentFragmentManager()
-    .beginTransaction()
-    .addToBackStack("start")
-    .add(R.id.fragment_container_view, AnotherFragment.class, null)
-    .setReorderingAllowed(true)
-    .commit();
-```
-
-Функция addToBackStack() добавляет скрываемый фрагмент в стек. Можно добавить имя, по которому будет осуществляться поиск фрагмента в стеке для упрощения поиска, выборки или удаления из стека. Методы add и addToBackStack() должны идти в паре с методом popBackStack(), который возвращается к предыдущему фрагменту, или remove(), который удаляет определенный фрагмент из стека. Иначе количество "добавленных" фрагментов в стек окажется больше, чем количество самих созданных экранов:  
-```
-getParentFragmentManager().popBackStack();
-```
-
-Также можно использовать методы show() и hide(), чтобы возвращаться к фрагментам, которые уже были добавлены в стек FragmentManager-а.
-
-У фрагмента есть доступ к ParentFragmentManager и ChildFragmentManager. Первый обращается к FragmentManager-у родительского компонента (породившего фрагмента или самой деятельности), а второй к стеку дочерних фрагментов.
-
-## Запрос данных через дочерний фрагмент
-Аналогично механизму startActivityForResult можно запустить фрагмент и "прослушивать" момент появление от него данных
-```
-getParentFragmentManager().setFragmentResultListener("TAG", this,
-    new FragmentResultListener() {
-        @Override
-        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-            // TODO 
-        }
-    }
-);
-```
-
-Дочерний фрагмент должен соответствующие данные вернуть:
+Можно явно задать фрагмент, который будет добавлен, а также передать ему некоторый набор данных как набор пар "ключа-значения":
 ```
 Bundle args = new Bundle();
 args.putString("KEY", "value");
-getParentFragmentManager().setFragmentResult("TAG", args);
+
+AnotherFragment fragment = new AnotherFragment();
+fragment.setArguments(args);
+
+getSupportFragmentManager()
+    .beginTransaction()
+    .replace(R.id.fragment_container_view, fragment) // fragment with nested arguments
+    .commit();
 ```
+
+Функция addToBackStack() добавляет скрываемый фрагмент в стек. В случае свайпа, нажатие системной кнопки "назад" добавленный фрагмент будет удален из стека, а тот который находился под ним, снова выйдет на передний план. Можно добавить имя, по которому будет осуществляться поиск фрагмента в стеке для упрощения поиска, выборки или удаления из стека.
+```
+getSupportFragmentManager()
+    .beginTransaction()
+    .addToBackStack("start")
+    .replace(R.id.fragment_container_view, AnotherFragment.class, null)
+    .commit();
+```
+
+Методы add и addToBackStack() должны идти в паре с методом popBackStack(), который возвращается к предыдущему фрагменту, или remove(), который удаляет определенный фрагмент из стека. Иначе количество "добавленных" фрагментов в стек окажется больше, чем количество самих созданных экранов:  
+```
+getSupportFragmentManager().popBackStack();
+```
+
+Также можно использовать методы show() и hide(), чтобы возвращаться к фрагментам, которые уже были добавлены в стек FragmentManager-а.
