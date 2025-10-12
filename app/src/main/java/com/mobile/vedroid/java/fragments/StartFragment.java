@@ -49,7 +49,6 @@ public class StartFragment
                     .replace(R.id.nav_host_fragment, FinalFragment.class, null)
                     .setReorderingAllowed(true)
                     .commit();
-//            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_FINAL, null);
         }
 
         if (button.getId() == R.id.btn_to_returning){
@@ -76,7 +75,6 @@ public class StartFragment
                     greeting.setText(txt);
                 }
             });
-//            ((SingleActivity) getActivity()).navigate(SingleActivity.JUMP_TO_RETURNING, null);
         }
     }
 }
