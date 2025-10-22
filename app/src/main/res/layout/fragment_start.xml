@@ -17,8 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        tools:viewBindingIgnore="true"
-        />
+        tools:viewBindingIgnore="true" />
 
     <TextView
         android:id="@+id/tv_greeting"
