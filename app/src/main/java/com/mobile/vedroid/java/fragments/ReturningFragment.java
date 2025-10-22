@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import com.mobile.vedroid.java.R;
+import com.mobile.vedroid.java.SingleActivity;
 import com.mobile.vedroid.java.databinding.FragmentReturningBinding;
 import com.mobile.vedroid.java.model.Account;
 
@@ -46,19 +47,19 @@ public class ReturningFragment
             public void onClick(View view) {
                 debugging("Click from returning");
 
-                if (login.getText() == null || login.getText().toString().isBlank()) {
-                    Snackbar.make(view, "Enter name", Snackbar.LENGTH_LONG).show();
-                } else {
-                    if (toggle.getCheckedButtonId() == R.id.btn_not_defined) {
-                        Snackbar.make(view, "Choose gender", Snackbar.LENGTH_LONG).show();
-                    } else {
-                        var name = login.getText().toString();
-                        var sex = toggle.getCheckedButtonId() == R.id.btn_man;
+                if (login.getText() != null && !login.getText().toString().isBlank()
+                        && toggle.getCheckedButtonId() != R.id.btn_not_defined) {
+                    var name = login.getText().toString();
+                    var sex = toggle.getCheckedButtonId() == R.id.btn_man;
 
-                        var action = ReturningFragmentDirections.actionScreenRegisterReturnStart();
-                        action.setACCOUNT(new Account(name, sex));
-                        Navigation.findNavController(view).navigate(action);
-                    }
+                    var action = ReturningFragmentDirections.actionScreenRegisterReturnStart();
+                    action.setACCOUNT(new Account(name, sex));
+                    Navigation.findNavController(view).navigate(action);
+                } else {
+                    String warning = getString(R.string.text_please);
+                    if (login.getText() == null || login.getText().toString().isBlank()) warning += getString(R.string.text_no_name);
+                    if (toggle.getCheckedButtonId() == R.id.btn_not_defined) warning += getString(R.string.text_no_gender);
+                    ((SingleActivity) getActivity()).showSnackBar(warning);
                 }
             }
         });

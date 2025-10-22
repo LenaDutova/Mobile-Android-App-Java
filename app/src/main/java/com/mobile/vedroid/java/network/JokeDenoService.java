@@ -16,7 +16,7 @@ public interface JokeDenoService {
     String URL_DENO = "https://joke.deno.dev/";
 
     @GET("type/programming/10")
-    Call<List<DenoJoke>> getTenJokes ();
+    Call<List<DenoJoke>> getJokes();
 
     @GET("type/programming/{count}")
     Call<List<DenoJoke>> getJokes (@Path("count") int count);

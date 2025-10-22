@@ -17,7 +17,7 @@ public interface JokeApiService {
     String URL_JOKEAPI = "https://v2.jokeapi.dev/";
 
     @GET("joke/Programming?amount=10")
-    Call<ApiJoke.ApiJokesList> getTenJokes ();
+    Call<ApiJoke.ApiJokesList> getJokes();
 
     @GET("joke/Programming?amount={count}")
     Call<ApiJoke.ApiJokesList> getJokes (@Path("count") int count);

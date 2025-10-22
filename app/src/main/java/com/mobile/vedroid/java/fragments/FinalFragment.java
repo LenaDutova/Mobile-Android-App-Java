@@ -93,7 +93,7 @@ public class FinalFragment
     private void loadDenoJokes (){
         // enqueue() performs the HTTP request on a background thread
         // execute() should be called from a background thread
-        RetrofitClient.getDenoService().getTenJokes().enqueue(new Callback<List<DenoJoke>>() {
+        RetrofitClient.getDenoService().getJokes().enqueue(new Callback<List<DenoJoke>>() {
             @Override
             public void onResponse(@NonNull Call<List<DenoJoke>> call, @NonNull Response<List<DenoJoke>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -120,7 +120,7 @@ public class FinalFragment
     }
 
     private void loadApiJokes() {
-        RetrofitClient.getApiService().getTenJokes().enqueue(new Callback<ApiJoke.ApiJokesList>() {
+        RetrofitClient.getApiService().getJokes().enqueue(new Callback<ApiJoke.ApiJokesList>() {
             @Override
             public void onResponse(@NonNull Call<ApiJoke.ApiJokesList> call, @NonNull Response<ApiJoke.ApiJokesList> response) {
                 if (response.isSuccessful() && response.body() != null) {
