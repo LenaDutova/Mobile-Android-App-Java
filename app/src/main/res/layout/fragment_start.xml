@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -9,14 +8,26 @@
 
     tools:context=".fragments.StartFragment">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/java"
+        android:scaleType="fitStart"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        tools:viewBindingIgnore="true"
+        />
+
     <TextView
         android:id="@+id/tv_greeting"
 
+        style="@style/MobileApp.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/normal"
 
-        style="@style/MobileApp.Title"
+        android:padding="@dimen/normal"
         android:text="@string/text_greeting_anonymous"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,11 +38,11 @@
     <Button
         android:id="@+id/btn_to_final"
 
+        style="?attr/materialButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/normal"
 
-        style="?attr/materialButtonStyle"
+        android:layout_margin="@dimen/normal"
         android:text="@string/btn_next"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,11 +51,11 @@
     <Button
         android:id="@+id/btn_to_returning"
 
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/normal"
 
-        style="?attr/materialButtonOutlinedStyle"
+        android:layout_margin="@dimen/normal"
         android:text="@string/btn_introduce_yourself"
 
         app:layout_constraintBottom_toBottomOf="parent"
