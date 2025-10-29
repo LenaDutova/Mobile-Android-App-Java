@@ -67,11 +67,12 @@ public class StartFragment
                 @Override
                 public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                     debugging("Listen results: " + requestKey);
-
-                    String txt  = getString(R.string.text_greeting) + " ";
-                    txt += (result.getBoolean(SingleActivity.GENDER, false)) ? getString(R.string.text_mr) : getString(R.string.text_mrs);
-                    txt += " " + result.getString(SingleActivity.LOGIN) + "!";
-
+                    StringBuilder txt  = new StringBuilder (getString(R.string.text_greeting))
+                            .append(" ")
+                            .append(result.getBoolean(SingleActivity.GENDER, false) ? getString(R.string.text_mr) : getString(R.string.text_mrs))
+                            .append(" ")
+                            .append(result.getString(SingleActivity.LOGIN) )
+                            .append("!");
                     greeting.setText(txt);
                 }
             });
