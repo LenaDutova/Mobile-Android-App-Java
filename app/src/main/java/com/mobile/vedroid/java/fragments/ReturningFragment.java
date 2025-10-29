@@ -6,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import com.mobile.vedroid.java.R;
@@ -54,23 +52,15 @@ public class ReturningFragment
 
                     var action = ReturningFragmentDirections.actionScreenRegisterReturnStart();
                     action.setACCOUNT(new Account(name, sex));
+
                     Navigation.findNavController(view).navigate(action);
                 } else {
-                    String warning = getString(R.string.text_please);
-                    if (login.getText() == null || login.getText().toString().isBlank()) warning += getString(R.string.text_no_name);
-                    if (toggle.getCheckedButtonId() == R.id.btn_not_defined) warning += getString(R.string.text_no_gender);
-                    ((SingleActivity) getActivity()).showSnackBar(warning);
+                    StringBuilder warning = new StringBuilder(getString(R.string.text_please));
+                    if (login.getText() == null || login.getText().toString().isBlank()) warning.append(getString(R.string.text_no_name));
+                    if (toggle.getCheckedButtonId() == R.id.btn_not_defined) warning.append(getString(R.string.text_no_gender));
+                    ((SingleActivity) getActivity()).showSnackBar(warning.toString());
                 }
             }
         });
-
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                debugging("Back stack click");
-                Navigation.findNavController(view).popBackStack();
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 }

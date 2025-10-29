@@ -43,12 +43,13 @@ public class StartFragment
 
         Account args = StartFragmentArgs.fromBundle(getArguments()).getACCOUNT();
         if (args != null) {
-            String txt  = getString(R.string.text_greeting) + " ";
-            txt += args.isGender() ? getString(R.string.text_mr) : getString(R.string.text_mrs);
-            txt += " " + args.getLogin() + "!";
-            debugging("text " + txt);
-
-            greeting.setText(txt);
+            StringBuilder txt = new StringBuilder(getString(R.string.text_greeting))
+                    .append(" ")
+                    .append(args.isGender() ? getString(R.string.text_mr) : getString(R.string.text_mrs))
+                    .append(" ")
+                    .append(args.getLogin())
+                    .append("!");
+            greeting.setText(txt.toString());
         }
     }
 

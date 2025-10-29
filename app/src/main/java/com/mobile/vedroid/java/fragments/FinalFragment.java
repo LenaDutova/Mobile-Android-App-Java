@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.vedroid.java.R;
@@ -39,14 +38,10 @@ public class FinalFragment
 
         RecyclerView recyclerView = fragmentBinding.messagesRecyclerView;
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         TextView placeholder = fragmentBinding.messagesPlaceholder;
-        if (adapter.getItemCount() > 0){
-            placeholder.setVisibility(View.GONE);
-        } else {
-            placeholder.setVisibility(View.VISIBLE);
-        }
+        placeholder.setVisibility( (adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
+
     }
 
     private ArrayList<String> createMockData() {
