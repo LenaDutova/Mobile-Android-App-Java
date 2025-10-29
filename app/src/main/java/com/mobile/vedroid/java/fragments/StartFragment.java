@@ -24,7 +24,6 @@ public class StartFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        debugging("HI");
         this.fragmentBinding = FragmentStartBinding.inflate(inflater, container, false);
         binding = this.fragmentBinding;
         return binding.getRoot();
@@ -33,6 +32,7 @@ public class StartFragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        debugging("HI");
 
         Button btnFinal = fragmentBinding.btnToFinal;
         Button btnReturning = fragmentBinding.btnToReturning;
@@ -43,11 +43,12 @@ public class StartFragment
 
         Account args = StartFragmentArgs.fromBundle(getArguments()).getACCOUNT();
         if (args != null) {
-            String txt  = getString(R.string.text_greeting) + " ";
-            txt += args.isGender() ? getString(R.string.text_mr) : getString(R.string.text_mrs);
-            txt += " " + args.getLogin() + "!";
-            debugging("text " + txt);
-
+            StringBuilder txt  = new StringBuilder(getString(R.string.text_greeting))
+                    .append(" ")
+                    .append(args.isGender() ? getString(R.string.text_mr) : getString(R.string.text_mrs))
+                    .append(" ")
+                    .append(args.getLogin())
+                    .append("!");
             greeting.setText(txt);
         }
     }

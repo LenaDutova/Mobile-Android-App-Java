@@ -11,8 +11,10 @@ activity = "1.11.0"
 constraintlayout = "2.2.1"
 navigationFragment = "2.9.5"
 retrofit = "3.0.0"
+swiperefreshlayout = "1.2.0-beta01"
 
 [libraries]
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
