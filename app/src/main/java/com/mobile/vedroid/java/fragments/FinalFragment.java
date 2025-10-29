@@ -42,7 +42,6 @@ public class FinalFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        debugging("HI");
         this.fragmentBinding = FragmentFinalBinding.inflate(inflater, container, false);
         binding = this.fragmentBinding;
         return binding.getRoot();
@@ -51,6 +50,7 @@ public class FinalFragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        debugging("HI");
 
         this.swipeRefreshLayout = fragmentBinding.swipeToRefresh;
         this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -67,16 +67,10 @@ public class FinalFragment
 
         RecyclerView recyclerView = fragmentBinding.messagesRecyclerView;
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
     private void checkPlaceholder(){
-        TextView placeholder = fragmentBinding.messagesPlaceholder;
-        if (adapter.getItemCount() > 0){
-            placeholder.setVisibility(View.GONE);
-        } else {
-            placeholder.setVisibility(View.VISIBLE);
-        }
+        fragmentBinding.messagesPlaceholder.setVisibility( (adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
     }
 
     private void loadJokes(){

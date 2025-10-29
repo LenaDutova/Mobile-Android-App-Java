@@ -5,10 +5,11 @@ import android.util.Log;
 import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.mobile.vedroid.java.BuildConfig;
+
 public class DebuggingFragment
         extends Fragment {
 
-    private static final boolean DEBUG = true;
     private static final String TAG = "TAG";
 
     protected ViewBinding binding;
@@ -20,6 +21,6 @@ public class DebuggingFragment
     }
 
     public void debugging(String message) {
-        if (DEBUG) Log.d(TAG + "_" + this.getClass().getSimpleName(), message);
+        if (BuildConfig.DEBUG) Log.d(TAG + "_" + this.getClass().getSimpleName(), message);
     }
 }
