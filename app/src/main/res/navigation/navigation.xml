@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_screen_start_to_final"
             app:destination="@id/screen_final"/>
+        <action
+            android:id="@+id/action_screen_start_to_settings"
+            app:destination="@id/screen_settings" />
 
         <argument
             android:name="ACCOUNT"
@@ -44,6 +47,24 @@
         android:id="@+id/screen_final"
         android:name="com.mobile.vedroid.java.fragments.FinalFragment"
         tools:layout="@layout/fragment_final">
+
+        <action
+            android:id="@+id/action_screen_final_to_settings"
+            app:destination="@id/screen_settings" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/screen_settings"
+        android:name="com.mobile.vedroid.java.fragments.SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_screen_settings_to_start"
+            app:popUpTo="@id/screen_start"
+            app:popUpToInclusive="true"
+            app:destination="@id/screen_start" />
+
     </fragment>
 
 </navigation>

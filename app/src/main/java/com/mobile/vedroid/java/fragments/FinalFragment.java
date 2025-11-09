@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mobile.vedroid.java.R;
 import com.mobile.vedroid.java.SingleActivity;
 import com.mobile.vedroid.java.adapter.ExpandableAdapter;
@@ -36,8 +36,8 @@ public class FinalFragment
     private final static boolean DENO_OR_API_JOKES = true;
 
     private FragmentFinalBinding fragmentBinding;
-    private ExpandableAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ExpandableAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -77,7 +77,7 @@ public class FinalFragment
         swipeRefreshLayout.setRefreshing(true);
 
         if (!NetworkUtils.isOnline(getActivity()))
-            ((SingleActivity)getActivity()).showSnackBar(getString(R.string.text_no_internet));
+            ((SingleActivity)getActivity()).showSnackBar(getString(R.string.warning_text_no_internet));
         else {
             if (DENO_OR_API_JOKES) loadDenoJokes();
             else loadApiJokes();

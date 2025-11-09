@@ -10,7 +10,7 @@ public class RetrofitClient {
 
     private RetrofitClient(){}
 
-    public static JokeApiService getApiService() {
+    public static synchronized JokeApiService getApiService() {
         if (apiService == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(JokeApiService.URL_JOKEAPI)
@@ -21,7 +21,7 @@ public class RetrofitClient {
         return apiService;
     }
 
-    public static JokeDenoService getDenoService() {
+    public static synchronized JokeDenoService getDenoService() {
         if (denoService == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(JokeDenoService.URL_DENO)

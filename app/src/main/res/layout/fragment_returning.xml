@@ -28,21 +28,21 @@
             android:id="@+id/btn_man"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/toggle_man"
+            android:text="@string/toggle_sex_man"
             />
         <Button
             style="?attr/materialButtonOutlinedStyle"
             android:id="@+id/btn_not_defined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/toggle_not_defined"
+            android:text="@string/toggle_sex_not_defined"
             />
         <Button
             style="?attr/materialButtonOutlinedStyle"
             android:id="@+id/btn_woman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/toggle_woman"
+            android:text="@string/toggle_sex_woman"
             />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

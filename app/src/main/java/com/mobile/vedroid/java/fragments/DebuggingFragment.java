@@ -16,8 +16,8 @@ public class DebuggingFragment
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         binding = null;
+        super.onDestroyView();
     }
 
     public void debugging(String message) {
