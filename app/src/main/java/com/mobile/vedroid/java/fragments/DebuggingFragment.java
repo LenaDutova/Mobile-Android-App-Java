@@ -10,8 +10,6 @@ import com.mobile.vedroid.java.BuildConfig;
 public class DebuggingFragment
         extends Fragment {
 
-    private static final String TAG = "TAG";
-
     protected ViewBinding binding;
 
     @Override
@@ -21,6 +19,6 @@ public class DebuggingFragment
     }
 
     public void debugging(String message) {
-        if (BuildConfig.DEBUG) Log.d(TAG + "_" + this.getClass().getSimpleName(), message);
+        if (BuildConfig.DEBUG) Log.d("TAG_" + this.getClass().getSimpleName(), message);
     }
 }

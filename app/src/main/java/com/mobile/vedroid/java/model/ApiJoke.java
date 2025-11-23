@@ -40,7 +40,7 @@ import java.util.Objects;
     }
 ]
  */
-public class ApiJoke {
+public class ApiJoke implements JokeModelAdapter{
 
     private final int id;
     private final String type;
@@ -56,22 +56,6 @@ public class ApiJoke {
         this.delivery = delivery;
     }
 
-    public String getJoke() {
-        return joke;
-    }
-
-    public String getSetup() {
-        return setup;
-    }
-
-    public String getDelivery() {
-        return delivery;
-    }
-
-    public boolean isTypeSingle(){
-        return type.equals("single");
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -84,7 +68,47 @@ public class ApiJoke {
         return Objects.hashCode(id);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder txt = new StringBuilder(getClass().getSimpleName());
+        txt.append("\nid:");
+        txt.append(id);
+        txt.append("\nsingle:");
+        txt.append(isSingleJoke());
+        txt.append("\nsetup:");
+        txt.append(getJokeSetup());
+        txt.append("\ndelivery:");
+        txt.append(delivery);
+        txt.append("\n");
+
+        return String.valueOf(txt);
+    }
+
+    // region // Pattern-Adapter
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isSingleJoke(){
+        return type.equals("single");
+    }
+
+    public String getJokeSetup() {
+        return isSingleJoke() ? joke : setup;
+    }
+
+    public String getJokeDelivery() {
+        return delivery;
+    }
+
+    // endregion
+
+    // region // inner class to parse param "jokes" into JSON-request
+
     public class ApiJokesList {
         public ArrayList<ApiJoke> jokes;
     }
+
+    // endregion
 }

@@ -3,6 +3,12 @@ package com.mobile.vedroid.java.network;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Singleton/Одиночка
+ * Реализация паттерна для создания уникальных объектов (с ленивой инициализацией)
+ * Приватный конструктор + публичная точка доступа к его экземпляру,
+ * доступ к которой программно атомарен
+ */
 public class RetrofitClient {
 
     private static JokeApiService apiService = null;

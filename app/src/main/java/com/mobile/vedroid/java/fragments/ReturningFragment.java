@@ -14,7 +14,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 import com.mobile.vedroid.java.R;
-import com.mobile.vedroid.java.SingleActivity;
+import com.mobile.vedroid.java.activity.SingleActivity;
 import com.mobile.vedroid.java.databinding.FragmentReturningBinding;
 import com.mobile.vedroid.java.model.Account;
 

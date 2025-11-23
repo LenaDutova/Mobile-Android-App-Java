@@ -7,22 +7,21 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mobile.vedroid.java.R;
-import com.mobile.vedroid.java.SingleActivity;
-import com.mobile.vedroid.java.adapter.ExpandableAdapter;
-import com.mobile.vedroid.java.adapter.MixedJokesAdapter;
-import com.mobile.vedroid.java.adapter.TwoPartJokesAdapter;
+import com.mobile.vedroid.java.activity.SingleActivity;
+import com.mobile.vedroid.java.adapter.JokesAdapter;
 import com.mobile.vedroid.java.databinding.FragmentFinalBinding;
 import com.mobile.vedroid.java.model.ApiJoke;
 import com.mobile.vedroid.java.model.DenoJoke;
+import com.mobile.vedroid.java.model.JokeModelAdapter;
 import com.mobile.vedroid.java.network.NetworkUtils;
 import com.mobile.vedroid.java.network.RetrofitClient;
+import com.mobile.vedroid.java.storage.FileManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,9 @@ public class FinalFragment
 
     private FragmentFinalBinding fragmentBinding;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ExpandableAdapter adapter;
+    private JokesAdapter adapter;
+
+    private FileManager fileManager = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -61,12 +62,16 @@ public class FinalFragment
             }
         });
 
-        if (DENO_OR_API_JOKES) adapter = new TwoPartJokesAdapter();
-        else adapter = new MixedJokesAdapter();
-        loadJokes();
-
+        adapter = new JokesAdapter();
         RecyclerView recyclerView = fragmentBinding.messagesRecyclerView;
         recyclerView.setAdapter(adapter);
+
+        this.fileManager = new FileManager();
+        if (fileManager.checkBuckUpExists()){
+            // load jokes from file
+            fileManager.readFromBuckUp();
+            loadJokes(); // can not parse them yet :(
+        } else loadJokes();
     }
 
     private void checkPlaceholder(){
@@ -84,6 +89,21 @@ public class FinalFragment
         }
     }
 
+    private void showJokes(ArrayList<JokeModelAdapter> jokes){
+        List <JokeModelAdapter> newItems = adapter.addItems(jokes);
+        if (newItems.size() > 0 ) {
+            debugging("Load " + newItems.size() + " elements");
+            checkPlaceholder();
+        }
+
+        //store jokes
+        try {
+            fileManager.writeToBuckUp((ArrayList) newItems);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void loadDenoJokes (){
         // enqueue() performs the HTTP request on a background thread
         // execute() should be called from a background thread
@@ -93,15 +113,8 @@ public class FinalFragment
                 if (response.isSuccessful() && response.body() != null) {
                     debugging ("Success: " + response.code() + ", size: " + response.body().size());
 
-                    int newItems = adapter.addItems((ArrayList) response.body());
-                    if (newItems > 0 ) {
-                        debugging("Load " + newItems + " elements");
-                        checkPlaceholder();
-                    }
-                }else {
-                    debugging ("Error: " + response.code());
-                }
-
+                    showJokes((ArrayList) response.body());
+                }else debugging ("Error: " + response.code());
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -120,12 +133,7 @@ public class FinalFragment
                 if (response.isSuccessful() && response.body() != null) {
                     debugging ("Success: " + response.code() + ", size: " + response.body().jokes.size());
 
-                    int newItems;
-                    newItems = adapter.addItems(response.body().jokes);
-                    if (newItems > 0 ) {
-                        debugging("Load " + newItems + " elements");
-                        checkPlaceholder();
-                    }
+                    showJokes((ArrayList) response.body().jokes);
                 } else debugging ("Error with code: " + response.code());
                 swipeRefreshLayout.setRefreshing(false);
             }

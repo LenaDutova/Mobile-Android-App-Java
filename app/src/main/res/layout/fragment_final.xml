@@ -6,7 +6,6 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorOnSurface"
 
     tools:context=".fragments.FinalFragment">
 
@@ -34,7 +33,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
             tools:listitem="@layout/item_joke"
-            tools:visibility="gone"
+            tools:visibility="visible"
             />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
