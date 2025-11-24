@@ -19,7 +19,7 @@
         android:theme="@style/Base.Theme.MobileJava">
 
         <activity
-            android:name=".activity.SingleActivity"
+            android:name=".ui.activity.SingleActivity"
             android:exported="true">
 
             <intent-filter>

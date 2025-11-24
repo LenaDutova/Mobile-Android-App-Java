@@ -1,4 +1,4 @@
-package com.mobile.vedroid.java.fragments;
+package com.mobile.vedroid.java.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.mobile.vedroid.java.R;
-import com.mobile.vedroid.java.activity.SingleActivity;
-import com.mobile.vedroid.java.adapter.JokesAdapter;
+import com.mobile.vedroid.java.storage.OfflineStorage;
+import com.mobile.vedroid.java.ui.activity.SingleActivity;
+import com.mobile.vedroid.java.ui.adapter.JokesAdapter;
 import com.mobile.vedroid.java.databinding.FragmentFinalBinding;
-import com.mobile.vedroid.java.model.ApiJoke;
-import com.mobile.vedroid.java.model.DenoJoke;
-import com.mobile.vedroid.java.model.JokeModelAdapter;
+import com.mobile.vedroid.java.model.requests.ApiJoke;
+import com.mobile.vedroid.java.model.requests.DenoJoke;
+import com.mobile.vedroid.java.model.JokeAdapterModel;
 import com.mobile.vedroid.java.network.NetworkUtils;
 import com.mobile.vedroid.java.network.RetrofitClient;
 import com.mobile.vedroid.java.storage.FileManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class FinalFragment
     private SwipeRefreshLayout swipeRefreshLayout;
     private JokesAdapter adapter;
 
-    private FileManager fileManager = null;
+    private OfflineStorage storage = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -58,7 +58,7 @@ public class FinalFragment
             @Override
             public void onRefresh() {
                 debugging("Swiped to refreshing");
-                loadJokes();
+                downloadJokes();
             }
         });
 
@@ -66,19 +66,18 @@ public class FinalFragment
         RecyclerView recyclerView = fragmentBinding.messagesRecyclerView;
         recyclerView.setAdapter(adapter);
 
-        this.fileManager = new FileManager();
-        if (fileManager.checkBuckUpExists()){
-            // load jokes from file
-            fileManager.readFromBuckUp();
-            loadJokes(); // can not parse them yet :(
-        } else loadJokes();
+        this.storage = new FileManager();
+        if (storage.isExists()){
+            debugging("Load jokes from storage");
+            adapter.addItems((ArrayList) storage.load());
+        } else downloadJokes();
     }
 
     private void checkPlaceholder(){
         fragmentBinding.messagesPlaceholder.setVisibility( (adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
     }
 
-    private void loadJokes(){
+    private void downloadJokes(){
         swipeRefreshLayout.setRefreshing(true);
 
         if (!NetworkUtils.isOnline(getActivity()))
@@ -89,19 +88,15 @@ public class FinalFragment
         }
     }
 
-    private void showJokes(ArrayList<JokeModelAdapter> jokes){
-        List <JokeModelAdapter> newItems = adapter.addItems(jokes);
-        if (newItems.size() > 0 ) {
-            debugging("Load " + newItems.size() + " elements");
+    private void showJokes(ArrayList<JokeAdapterModel> jokes){
+        List <JokeAdapterModel> newItems = adapter.addItems(jokes);
+        if (!newItems.isEmpty() ) {
+            debugging("Download " + newItems.size() + " jokes");
             checkPlaceholder();
         }
 
         //store jokes
-        try {
-            fileManager.writeToBuckUp((ArrayList) newItems);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        storage.save((ArrayList) newItems);
     }
 
     private void loadDenoJokes (){

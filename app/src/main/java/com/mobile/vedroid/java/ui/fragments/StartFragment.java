@@ -1,4 +1,4 @@
-package com.mobile.vedroid.java.fragments;
+package com.mobile.vedroid.java.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,10 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.Navigation;
 
-import com.mobile.vedroid.java.MobileApplication;
 import com.mobile.vedroid.java.R;
 import com.mobile.vedroid.java.storage.SPManager;
-import com.mobile.vedroid.java.activity.SingleActivity;
+import com.mobile.vedroid.java.ui.activity.SingleActivity;
 import com.mobile.vedroid.java.databinding.FragmentStartBinding;
 import com.mobile.vedroid.java.model.Account;
 

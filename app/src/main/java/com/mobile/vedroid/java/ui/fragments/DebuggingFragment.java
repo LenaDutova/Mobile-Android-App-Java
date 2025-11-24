@@ -1,4 +1,4 @@
-package com.mobile.vedroid.java.fragments;
+package com.mobile.vedroid.java.ui.fragments;
 
 import android.util.Log;
 

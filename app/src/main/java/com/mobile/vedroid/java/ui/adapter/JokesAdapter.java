@@ -1,4 +1,4 @@
-package com.mobile.vedroid.java.adapter;
+package com.mobile.vedroid.java.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,23 +8,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.vedroid.java.databinding.ItemJokeBinding;
-import com.mobile.vedroid.java.model.JokeModelAdapter;
+import com.mobile.vedroid.java.model.JokeAdapterModel;
 
 import java.util.ArrayList;
 
 public class JokesAdapter
         extends RecyclerView.Adapter<JokesAdapter.ViewHolder> {
 
-    protected ArrayList<JokeModelAdapter> jokes = new ArrayList<JokeModelAdapter>();
+    protected ArrayList<JokeAdapterModel> jokes = new ArrayList<JokeAdapterModel>();
 
     public JokesAdapter() { }
-    public JokesAdapter(ArrayList<JokeModelAdapter> jokes) {
+    public JokesAdapter(ArrayList<JokeAdapterModel> jokes) {
         this.jokes.addAll(jokes);
     }
 
-    public ArrayList<JokeModelAdapter> addItems(ArrayList<JokeModelAdapter> newJokes) {
-        ArrayList<JokeModelAdapter> addedJokes = new ArrayList<>();
-        for (JokeModelAdapter joke : newJokes) {
+    public ArrayList<JokeAdapterModel> addItems(ArrayList<JokeAdapterModel> newJokes) {
+        ArrayList<JokeAdapterModel> addedJokes = new ArrayList<>();
+        for (JokeAdapterModel joke : newJokes) {
             if (!jokes.contains(joke)) {
                 jokes.add(0, joke);
                 addedJokes.add(joke);
@@ -64,7 +64,7 @@ public class JokesAdapter
             this.binding = binding;
         }
 
-        void bindItem (JokeModelAdapter item){
+        void bindItem (JokeAdapterModel item){
             if (item.isSingleJoke()){
                 binding.itemSingleJokeText.setVisibility(View.VISIBLE);
                 binding.itemTwopartJokeSetup.setVisibility(View.GONE);

@@ -1,4 +1,4 @@
-package com.mobile.vedroid.java.activity;
+package com.mobile.vedroid.java.ui.activity;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;

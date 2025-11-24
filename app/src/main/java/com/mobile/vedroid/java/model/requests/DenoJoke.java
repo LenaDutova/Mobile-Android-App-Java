@@ -1,6 +1,7 @@
-package com.mobile.vedroid.java.model;
+package com.mobile.vedroid.java.model.requests;
 
 import com.google.gson.annotations.SerializedName;
+import com.mobile.vedroid.java.model.JokeAdapterModel;
 
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
     "punchline": "Inheritance"
 }
  */
-public class DenoJoke implements JokeModelAdapter {
+public class DenoJoke implements JokeAdapterModel {
 
     private final int id;
     private final String setup;
@@ -24,7 +25,6 @@ public class DenoJoke implements JokeModelAdapter {
         this.setup = setup;
         this.delivery = delivery;
     }
-    public DenoJoke() {}
 
     @Override
     public boolean equals(Object o) {
@@ -38,19 +38,6 @@ public class DenoJoke implements JokeModelAdapter {
         return Objects.hashCode(id);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder txt = new StringBuilder(getClass().getSimpleName());
-        txt.append("\nid:");
-        txt.append(id);
-        txt.append("\nsingle:false\nsetup:");
-        txt.append(setup);
-        txt.append("\ndelivery:");
-        txt.append(delivery);
-        txt.append("\n");
-
-        return String.valueOf(txt);
-    }
     // region // Pattern-Adapter
 
     public int getId() {

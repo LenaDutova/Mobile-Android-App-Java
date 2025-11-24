@@ -1,4 +1,4 @@
-package com.mobile.vedroid.java.fragments;
+package com.mobile.vedroid.java.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 import com.mobile.vedroid.java.R;
-import com.mobile.vedroid.java.activity.SingleActivity;
+import com.mobile.vedroid.java.ui.activity.SingleActivity;
 import com.mobile.vedroid.java.databinding.FragmentReturningBinding;
 import com.mobile.vedroid.java.model.Account;
 

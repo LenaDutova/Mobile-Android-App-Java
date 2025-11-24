@@ -1,6 +1,6 @@
 package com.mobile.vedroid.java.network;
 
-import com.mobile.vedroid.java.model.ApiJoke;
+import com.mobile.vedroid.java.model.requests.ApiJoke;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

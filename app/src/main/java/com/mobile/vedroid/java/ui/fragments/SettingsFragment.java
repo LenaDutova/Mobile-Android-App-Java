@@ -1,4 +1,4 @@
-package com.mobile.vedroid.java.fragments;
+package com.mobile.vedroid.java.ui.fragments;
 
 import static com.google.android.material.checkbox.MaterialCheckBox.STATE_CHECKED;
 
@@ -16,7 +16,7 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.mobile.vedroid.java.R;
 import com.mobile.vedroid.java.storage.SPManager;
-import com.mobile.vedroid.java.activity.SingleActivity;
+import com.mobile.vedroid.java.ui.activity.SingleActivity;
 import com.mobile.vedroid.java.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment

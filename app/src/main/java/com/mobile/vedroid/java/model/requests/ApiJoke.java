@@ -1,4 +1,6 @@
-package com.mobile.vedroid.java.model;
+package com.mobile.vedroid.java.model.requests;
+
+import com.mobile.vedroid.java.model.JokeAdapterModel;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -40,7 +42,7 @@ import java.util.Objects;
     }
 ]
  */
-public class ApiJoke implements JokeModelAdapter{
+public class ApiJoke implements JokeAdapterModel {
 
     private final int id;
     private final String type;
@@ -66,22 +68,6 @@ public class ApiJoke implements JokeModelAdapter{
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder txt = new StringBuilder(getClass().getSimpleName());
-        txt.append("\nid:");
-        txt.append(id);
-        txt.append("\nsingle:");
-        txt.append(isSingleJoke());
-        txt.append("\nsetup:");
-        txt.append(getJokeSetup());
-        txt.append("\ndelivery:");
-        txt.append(delivery);
-        txt.append("\n");
-
-        return String.valueOf(txt);
     }
 
     // region // Pattern-Adapter

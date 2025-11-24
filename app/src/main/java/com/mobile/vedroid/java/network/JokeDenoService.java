@@ -1,6 +1,6 @@
 package com.mobile.vedroid.java.network;
 
-import com.mobile.vedroid.java.model.DenoJoke;
+import com.mobile.vedroid.java.model.requests.DenoJoke;
 
 import java.util.List;
 

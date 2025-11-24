@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
 
-    tools:context=".fragments.ReturningFragment">
+    tools:context=".ui.fragments.ReturningFragment">
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/registration_gender_toggle"
