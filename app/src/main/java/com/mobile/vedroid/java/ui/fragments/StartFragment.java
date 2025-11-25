@@ -11,10 +11,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.Navigation;
 
 import com.mobile.vedroid.java.R;
+import com.mobile.vedroid.java.storage.DSManager;
 import com.mobile.vedroid.java.storage.SPManager;
 import com.mobile.vedroid.java.ui.activity.SingleActivity;
 import com.mobile.vedroid.java.databinding.FragmentStartBinding;
 import com.mobile.vedroid.java.model.Account;
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+
 
 public class StartFragment
         extends DebuggingFragment
@@ -22,6 +26,8 @@ public class StartFragment
 
     private FragmentStartBinding fragmentBinding;
     private SPManager spManager;
+    private DSManager dsManager;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -32,11 +38,18 @@ public class StartFragment
     }
 
     @Override
+    public void onDestroyView() {
+        disposables.clear();
+        super.onDestroyView();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         debugging("HI");
 
         this.spManager = SPManager.getInstance();
+        this.dsManager = DSManager.getInstance();
 
         fragmentBinding.btnToFinal.setOnClickListener(this);
         fragmentBinding.btnToReturning.setOnClickListener(this);
@@ -59,11 +72,23 @@ public class StartFragment
             } else debugging("No user account");
         }
 
-        boolean language = spManager.readIsAlwaysLanguageRu();
-        if (language) ((SingleActivity) getActivity()).setLocaleAlwaysRu(language);
-
-        int mode = spManager.readMode();
-        if (mode != AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) AppCompatDelegate.setDefaultNightMode(mode);
+        disposables.add(dsManager.isAlwaysRuLanguage()
+                .subscribe(
+                        language -> {
+                            debugging("Read saved AlwaysRuLanguage: " + language);
+                            if (language) ((SingleActivity) getActivity()).setLocaleAlwaysRu(true);
+                        },
+                        throwable -> debugging("Error in load AlwaysRuLanguage: " + throwable)
+                )
+        );
+        disposables.add(dsManager.loadLightOrNightMode().subscribe(
+                        mode -> {
+                            debugging("Read saved LightOrNightMode: " + mode);
+                            if (mode != AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) AppCompatDelegate.setDefaultNightMode(mode);
+                        },
+                        throwable -> debugging("Error in load LightOrNightMode: " + throwable)
+                )
+        );
     }
 
     @Override
@@ -83,6 +108,7 @@ public class StartFragment
             Navigation.findNavController(button).navigate(R.id.action_screen_start_to_settings);
         }
     }
+
 
     private String createGreeting (Account user){
         return createGreeting(user.getLogin(), user.isGender());

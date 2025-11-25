@@ -60,6 +60,11 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
 
+    // Preferences DataStore + RxJava :(
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences.rxjava3)
+    implementation(libs.rxandroid)
+
     // tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
