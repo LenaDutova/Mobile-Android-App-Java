@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.mobile.vedroid.java.R;
 import com.mobile.vedroid.java.storage.OfflineStorage;
+import com.mobile.vedroid.java.storage.sqlite.SQLiteManager;
 import com.mobile.vedroid.java.ui.activity.SingleActivity;
 import com.mobile.vedroid.java.ui.adapter.JokesAdapter;
 import com.mobile.vedroid.java.databinding.FragmentFinalBinding;
@@ -25,6 +26,9 @@ import com.mobile.vedroid.java.storage.FileManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +43,7 @@ public class FinalFragment
     private JokesAdapter adapter;
 
     private OfflineStorage storage = null;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -46,6 +51,12 @@ public class FinalFragment
         this.fragmentBinding = FragmentFinalBinding.inflate(inflater, container, false);
         binding = this.fragmentBinding;
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        disposables.clear();
+        super.onDestroyView();
     }
 
     @Override
@@ -66,11 +77,28 @@ public class FinalFragment
         RecyclerView recyclerView = fragmentBinding.messagesRecyclerView;
         recyclerView.setAdapter(adapter);
 
-        this.storage = new FileManager();
-        if (storage.isExists()){
-            debugging("Load jokes from storage");
-            adapter.addItems((ArrayList) storage.load());
-        } else downloadJokes();
+        // Change storage vault
+//        this.storage = new FileManager();
+        this.storage = new SQLiteManager();
+
+        disposables.add(storage.load()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                jokes -> {
+                    if (jokes.isEmpty()){
+                        debugging("No saved jokes");
+                        downloadJokes();
+                    } else {
+                        debugging("Load jokes from storage: " + jokes.size());
+                        adapter.addItems((ArrayList<JokeAdapterModel>) jokes);
+                        checkPlaceholder();
+                    }
+                },
+                throwable -> {
+                    debugging("Something wrong");
+                }
+        ));
     }
 
     private void checkPlaceholder(){
@@ -96,7 +124,12 @@ public class FinalFragment
         }
 
         //store jokes
-        storage.save((ArrayList) newItems);
+        disposables.add(storage.save((ArrayList) newItems)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> debugging("Save new jokes")
+                ));
     }
 
     private void loadDenoJokes (){

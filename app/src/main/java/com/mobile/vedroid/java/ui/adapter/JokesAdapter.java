@@ -11,19 +11,20 @@ import com.mobile.vedroid.java.databinding.ItemJokeBinding;
 import com.mobile.vedroid.java.model.JokeAdapterModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JokesAdapter
         extends RecyclerView.Adapter<JokesAdapter.ViewHolder> {
 
-    protected ArrayList<JokeAdapterModel> jokes = new ArrayList<JokeAdapterModel>();
+    protected List<JokeAdapterModel> jokes = new ArrayList<JokeAdapterModel>();
 
     public JokesAdapter() { }
-    public JokesAdapter(ArrayList<JokeAdapterModel> jokes) {
+    public JokesAdapter(List<JokeAdapterModel> jokes) {
         this.jokes.addAll(jokes);
     }
 
-    public ArrayList<JokeAdapterModel> addItems(ArrayList<JokeAdapterModel> newJokes) {
-        ArrayList<JokeAdapterModel> addedJokes = new ArrayList<>();
+    public List<JokeAdapterModel> addItems(List<JokeAdapterModel> newJokes) {
+        List<JokeAdapterModel> addedJokes = new ArrayList<>();
         for (JokeAdapterModel joke : newJokes) {
             if (!jokes.contains(joke)) {
                 jokes.add(0, joke);
@@ -65,20 +66,20 @@ public class JokesAdapter
         }
 
         void bindItem (JokeAdapterModel item){
-            if (item.isSingleJoke()){
+            if (item.isSingle()){
                 binding.itemSingleJokeText.setVisibility(View.VISIBLE);
                 binding.itemTwopartJokeSetup.setVisibility(View.GONE);
                 binding.itemTwopartJokeDelivery.setVisibility(View.GONE);
 
-                binding.itemSingleJokeText.setText(item.getJokeSetup());
+                binding.itemSingleJokeText.setText(item.getSetup());
             }
             else {
                 binding.itemSingleJokeText.setVisibility(View.GONE);
                 binding.itemTwopartJokeSetup.setVisibility(View.VISIBLE);
                 binding.itemTwopartJokeDelivery.setVisibility(View.VISIBLE);
 
-                binding.itemTwopartJokeSetup.setText(item.getJokeSetup());
-                binding.itemTwopartJokeDelivery.setText(item.getJokeDelivery());
+                binding.itemTwopartJokeSetup.setText(item.getSetup());
+                binding.itemTwopartJokeDelivery.setText(item.getDelivery());
             }
         }
     }

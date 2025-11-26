@@ -9,8 +9,8 @@ public interface JokeAdapterModel {
 
     int getId();
 
-    boolean isSingleJoke();
-    String getJokeSetup();
-    String getJokeDelivery();
+    boolean isSingle();
+    String getSetup();
+    String getDelivery();
 
 }

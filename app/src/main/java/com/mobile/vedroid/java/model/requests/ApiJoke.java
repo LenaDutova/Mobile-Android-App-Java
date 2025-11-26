@@ -76,15 +76,15 @@ public class ApiJoke implements JokeAdapterModel {
         return id;
     }
 
-    public boolean isSingleJoke(){
+    public boolean isSingle(){
         return type.equals("single");
     }
 
-    public String getJokeSetup() {
-        return isSingleJoke() ? joke : setup;
+    public String getSetup() {
+        return isSingle() ? joke : setup;
     }
 
-    public String getJokeDelivery() {
+    public String getDelivery() {
         return delivery;
     }
 

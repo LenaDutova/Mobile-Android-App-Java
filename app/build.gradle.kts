@@ -65,6 +65,11 @@ dependencies {
     implementation(libs.androidx.datastore.preferences.rxjava3)
     implementation(libs.rxandroid)
 
+    // Room + RxJava :(
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.rxjava3)
+
     // tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

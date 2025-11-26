@@ -45,17 +45,17 @@ public class DenoJoke implements JokeAdapterModel {
     }
 
     @Override
-    public boolean isSingleJoke() {
+    public boolean isSingle() {
         return false;
     }
 
     @Override
-    public String getJokeSetup() {
+    public String getSetup() {
         return setup;
     }
 
     @Override
-    public String getJokeDelivery() {
+    public String getDelivery() {
         return delivery;
     }
 
